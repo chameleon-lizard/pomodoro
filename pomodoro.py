@@ -3,7 +3,6 @@ import time
 import sys
 import os
 
-
 def print_cycle(cycles, minutes, timer, activity):
     os.system("clear")
     print("You currently spent " + str(cycles) + " cycles on " + activity + ".")
@@ -18,8 +17,12 @@ def print_cycle(cycles, minutes, timer, activity):
 
 
 def write_to_file(cycles, minutes, timer, activity):
-    # Opening file
+    # Creating file
     file = open("data", "a+")
+    file.close()
+
+    # Opening file
+    file = open("data", "r+")
     file.seek(0, 0)
 
     try:
@@ -86,5 +89,7 @@ while True:
         # Every loop is 1 minute
         print_cycle(cycles, minutes, timer, activity)
         minutes += 1
-        time.sleep(60)
+        time.sleep(1)
     cycles += 1
+    print("\a")
+    os.system("notify-send 'Time to rest'") if cycles % 2 == 0 else os.system("notify-send 'Time to work'")

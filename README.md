@@ -1,6 +1,9 @@
 # Pomodoro
 A simple python pomodoro timer. I was bored and my code sucks.
 
+## Dependencies
+Pomodoro sends notifications using libnotify. Most of mere mortals that use Gnome, KDE, XFCE and any other DE are covered, but if you are using some kind of a WM (like i3wm or whatever else), you have to make sure that you have libnotify and a notification server installed and running. I, personallo, prefer [dunst](https://github.com/dunst-project/dunst), but you can read all about notifications on [ArchWiki](https://wiki.archlinux.org/index.php/Desktop_notifications).
+
 ## Installation:
 Currently you just clone the repo and run the script with python. Nothing fancy yet.
 
