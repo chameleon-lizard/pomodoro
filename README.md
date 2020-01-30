@@ -15,9 +15,8 @@ If less than 3 parameters are specified, it uses default values - 30 minutes for
 If you want to end your session, you have to send SIGINT to the process (Ctrl+C). After that it logs your worktime into "data" file in human readable format.
 
 ## TODO:
-- Some kind of notification when the cycle ends
 - Script for installing the pomodoro
-- NCurses display
+- NCurses graphics
 - MAYBE notes and tasks for the day, if I'll have the time and motivation
 
 Peace!
