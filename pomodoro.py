@@ -89,7 +89,7 @@ while True:
         # Every loop is 1 minute
         print_cycle(cycles, minutes, timer, activity)
         minutes += 1
-        time.sleep(1)
+        time.sleep(60)
     cycles += 1
     print("\a")
     os.system("notify-send 'Time to rest'") if cycles % 2 == 0 else os.system("notify-send 'Time to work'")
