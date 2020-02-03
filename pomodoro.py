@@ -61,6 +61,26 @@ def write_to_file(cycles, minutes, timer, activity):
 
     file.close()
 
+def read_file():
+    # Opening file. If not possible, print error.
+    try:
+        file = open("data", "r")
+        file.seek(0, 0)
+
+        content = file.readlines()
+
+        for line in content:
+            info = []
+            for i in line.split():
+                if i.isnumeric():
+                    info.append(int(i))
+
+            # TODO: Fix activity name
+            print(line.split()[0] + ": " + str(info[0]) + " cycle(s), " + str(info[1] // 60) + " hours and " + str(info[1] % 60) + " minute(s);")
+        
+        file.close()
+    except OSError:
+        print("Data file missing!")
 
 def signal_handler(sig, frame):
     os.system("clear")
@@ -76,6 +96,10 @@ cycles = 0
 minutes = 1
 activity = "random stuff"
 
+if len(sys.argv) <= 4 and sys.argv[1] == "-h" or sys.argv[1] == "--help":
+    read_file()
+    sys.exit()
+
 if len(sys.argv) >= 4:
     timer = [int(sys.argv[1]), int(sys.argv[2])]
     activity = " ".join(sys.argv[3:])
@@ -89,7 +113,7 @@ while True:
         # Every loop is 1 minute
         print_cycle(cycles, minutes, timer, activity)
         minutes += 1
-        time.sleep(1)
+        time.sleep(60)
     cycles += 1
     print("\a")
-    os.system("notify-send 'Time to rest'") if cycles % 2 == 0 else os.system("notify-send 'Time to work'")
+    os.system("notify-send 'Time to rest'") if not cycles % 2 == 0 else os.system("notify-send 'Time to work'")
