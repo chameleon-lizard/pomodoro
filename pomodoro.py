@@ -68,15 +68,13 @@ def read_file():
         file.seek(0, 0)
 
         content = file.readlines()
-
         for line in content:
             info = []
             for i in line.split():
                 if i.isnumeric():
                     info.append(int(i))
 
-            # TODO: Fix activity name
-            print(line.split()[0] + ": " + str(info[0]) + " cycle(s), " + str(info[1] // 60) + " hours and " + str(info[1] % 60) + " minute(s);")
+            print(line[:line.index(":")] + ": " + str(info[0]) + " cycle(s), " + str(info[1] // 60) + " hours and " + str(info[1] % 60) + " minute(s);")
         
         file.close()
     except OSError:
@@ -96,7 +94,7 @@ cycles = 0
 minutes = 1
 activity = "random stuff"
 
-if len(sys.argv) <= 4 and sys.argv[1] == "-h" or sys.argv[1] == "--help":
+if len(sys.argv) <= 4 and sys.argv[1] == "-t" or sys.argv[1] == "--time":
     read_file()
     sys.exit()
 
