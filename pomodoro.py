@@ -1,7 +1,10 @@
+#!/bin/python
+
 import signal
 import time
 import sys
 import os
+
 
 def print_cycle(cycles, minutes, timer, activity):
     os.system("clear")
@@ -28,38 +31,37 @@ def write_to_file(cycles, minutes, timer, activity):
     try:
         # If there already is a line with our activity, we are reading all the lines,
         # finding the line with our activity, reading numbers from it, updating deleting
-        # the line and writing an updated line to the end of the file in human readable format. 
+        # the line and writing an updated line to the end of the file in human readable format.
         # TODO: find out if there is a better algorythm.
         content = file.readlines()
         previous = content.index([s for s in content if activity in s][0])
-        prev_data = []
         for i in content[previous].split():
             if i.isnumeric():
-                prev_data.append(int(i))
+                prev_data = int(i)
+                break
 
-        prev_data[0] += cycles
-        prev_data[1] += minutes + timer[0] * (cycles // 2 + cycles % 2)
+        prev_data += minutes + timer[0] * (cycles // 2 + cycles % 2)
 
         file.seek(0)
         for i in content:
             if activity not in i:
                 file.write(i)
 
-        file.write(activity + ": " +
-                   str(prev_data[0]) + " cycle(s), " + str(prev_data[1]) + " minute(s);\n")
+        file.write(activity + ": " + str(prev_data) + " minute(s);\n")
         file.truncate()
     # If we catch ValueError or IndexError, it means that we couldn't find the line
     # with our activity. So, in this case we just create a line in the end.
     except ValueError:
         file.seek(0, 2)
-        file.write(activity + ": " + str(cycles) + " cycle(s), " +
-                   str(minutes + timer[0] * (cycles // 2 + cycles % 2)) + " minute(s);\n")
+        file.write(activity + ": " + str(minutes +
+                                         timer[0] * (cycles // 2 + cycles % 2)) + " minute(s);\n")
     except IndexError:
         file.seek(0, 2)
-        file.write(activity + ": " + str(cycles) + " cycle(s), " +
-                   str(minutes + timer[0] * (cycles // 2 + cycles % 2)) + " minute(s);\n")
+        file.write(activity + ": " + str(minutes +
+                                         timer[0] * (cycles // 2 + cycles % 2)) + " minute(s);\n")
 
     file.close()
+
 
 def read_file():
     # Opening file. If not possible, print error.
@@ -69,16 +71,18 @@ def read_file():
 
         content = file.readlines()
         for line in content:
-            info = []
             for i in line.split():
                 if i.isnumeric():
-                    info.append(int(i))
+                    info = int(i)
+                    break
 
-            print(line[:line.index(":")] + ": " + str(info[0]) + " cycle(s), " + str(info[1] // 60) + " hours and " + str(info[1] % 60) + " minute(s);")
-        
+            print(line[:line.index(":")] + ": " + str(info // 60) +
+                  " hours and " + str(info % 60) + " minute(s);")
+
         file.close()
     except OSError:
         print("Data file missing!")
+
 
 def signal_handler(sig, frame):
     os.system("clear")
@@ -94,13 +98,17 @@ cycles = 0
 minutes = 1
 activity = "random stuff"
 
-if len(sys.argv) <= 4 and sys.argv[1] == "-t" or sys.argv[1] == "--time":
-    read_file()
-    sys.exit()
+if len(sys.argv) != 1:
+    if len(sys.argv) < 4 and sys.argv[1] == "-t" or sys.argv[1] == "--time":
+        read_file()
+        sys.exit()
+    elif len(sys.argv) == 2 and sys.argv[1] == "-h" or sys.argv[1] == "--help":
+        print("Type work time in minutes as the first argument, rest time as second and activity name as third, or use flags:\n\t-t\tprint current time spent on stuff\n\t-h\tprint help (equivalent to --help)")
+        sys.exit(0)
 
-if len(sys.argv) >= 4:
-    timer = [int(sys.argv[1]), int(sys.argv[2])]
-    activity = " ".join(sys.argv[3:])
+    if len(sys.argv) >= 4:
+        timer = [int(sys.argv[1]), int(sys.argv[2])]
+        activity = " ".join(sys.argv[3:])
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -114,4 +122,5 @@ while True:
         time.sleep(60)
     cycles += 1
     print("\a")
-    os.system("notify-send 'Time to rest'") if not cycles % 2 == 0 else os.system("notify-send 'Time to work'")
+    os.system("notify-send 'Time to rest'") if not cycles % 2 == 0 else os.system(
+        "notify-send 'Time to work'")
