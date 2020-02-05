@@ -103,7 +103,9 @@ if len(sys.argv) != 1:
         read_file()
         sys.exit()
     elif len(sys.argv) == 2 and sys.argv[1] == "-h" or sys.argv[1] == "--help":
-        print("Type work time in minutes as the first argument, rest time as second and activity name as third, or use flags:\n\t-t\tprint current time spent on stuff\n\t-h\tprint help (equivalent to --help)")
+        print("Type work time in minutes as the first argument, rest time as " +
+        "second and activity name as third, or use flags:\n\t-t\tprint current " +
+        "time spent on stuff\n\t-h\tprint help (equivalent to --help)")
         sys.exit(0)
 
     if len(sys.argv) >= 4:
