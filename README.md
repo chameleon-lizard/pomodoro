@@ -5,7 +5,12 @@ A simple python pomodoro timer. I was bored and my code sucks.
 Pomodoro sends notifications using libnotify. Most of mere mortals that use Gnome, KDE, XFCE and any other DE are covered, but if you are using some kind of a WM (like i3wm or whatever else), you have to make sure that you have libnotify and a notification server installed and running. I, personally, prefer [dunst](https://github.com/dunst-project/dunst), but you can read all about notifications on [ArchWiki](https://wiki.archlinux.org/index.php/Desktop_notifications).
 
 ## Installation:
-Currently you just clone the repo and run the script with python. Nothing fancy yet.
+To install pomodoro you have to clone the repo, chmod +x pomodoro.py and move it anywhere in your path. Or you can use install.sh:
+```
+git clone https://github.com/chameleon-lizard/pomodoro.git
+chmod +x install.sh
+./install.sh
+```
 
 ## Usage:
 Pomodoro recieves 3+ parameters. First is the length of worktime (in minutes), second is the length of free time, third and all next parameters are used as the name for your activity.
