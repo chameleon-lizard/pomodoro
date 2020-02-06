@@ -21,18 +21,18 @@ def print_cycle(cycles, minutes, timer, activity):
 
 def write_to_file(cycles, minutes, timer, activity):
     # Creating file
-    file = open("data", "a+")
+    file = open(os.path.join(os.path.expanduser('~'),'.cache/pomodoro/data'), "a+")
     file.close()
 
     # Opening file
-    file = open("data", "r+")
+    file = open(os.path.join(os.path.expanduser('~'),'.cache/pomodoro/data'), "r+")
     file.seek(0, 0)
 
     try:
         # If there already is a line with our activity, we are reading all the lines,
         # finding the line with our activity, reading numbers from it, updating deleting
-        # the line and writing an updated line to the end of the file in human readable format.
-        # TODO: find out if there is a better algorythm.
+        # the line and writing an updated line to the end of the file in (more or less) 
+        # human readable format.
         content = file.readlines()
         previous = content.index([s for s in content if activity in s][0])
         for i in content[previous].split():
@@ -66,7 +66,7 @@ def write_to_file(cycles, minutes, timer, activity):
 def read_file():
     # Opening file. If not possible, print error.
     try:
-        file = open("data", "r")
+        file = open(os.path.join(os.path.expanduser('~'),'.cache/pomodoro/data'), "r")
         file.seek(0, 0)
 
         content = file.readlines()
@@ -81,7 +81,7 @@ def read_file():
 
         file.close()
     except OSError:
-        print("Data file missing!")
+        print("Data file missing.")
 
 
 def signal_handler(sig, frame):
@@ -104,8 +104,8 @@ if len(sys.argv) != 1:
         sys.exit()
     elif len(sys.argv) == 2 and sys.argv[1] == "-h" or sys.argv[1] == "--help":
         print("Type work time in minutes as the first argument, rest time as " +
-        "second and activity name as third, or use flags:\n\t-t\tprint current " +
-        "time spent on stuff\n\t-h\tprint help (equivalent to --help)")
+              "second and activity name as third, or use flags:\n\t-t\tprint current " +
+              "time spent on stuff\n\t-h\tprint help (equivalent to --help)")
         sys.exit(0)
 
     if len(sys.argv) >= 4:
