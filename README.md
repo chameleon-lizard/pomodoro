@@ -8,6 +8,7 @@ Pomodoro sends notifications using libnotify. Most of mere mortals that use Gnom
 To install pomodoro you have to clone the repo, chmod +x pomodoro.py and move it anywhere in your path. Or you can use install.sh:
 ```
 git clone https://github.com/chameleon-lizard/pomodoro.git
+cd pomodoro
 chmod +x install.sh
 ./install.sh
 ```
